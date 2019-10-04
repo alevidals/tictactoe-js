@@ -3,6 +3,10 @@ var turno = 0;
 var squares = document.getElementById("main").querySelectorAll(".box");
 var title = document.getElementById("player");
 
+var modal = document.getElementById("modal");
+// var closeButton = document.getElementById("close-button");
+
+
 addListeners();
 
 function checkEndGame() {
@@ -46,15 +50,26 @@ function addListeners() {
 function cambiarplayer() {
     turno++;
     player = player == 0 ? 1 : 0;
-    setTimeout(function () {
-        if (checkEndGame()) {
-            alert("Ha ganado el jugador " + player);
-        } else if (turno == 9) {
-            alert("El juego a quedado en empate.");
-        }
-    }, 50);
+    if (checkEndGame()) {
+        toggleModal("HA GANADO EL " + player);
+    } else if (turno == 9) {
+        toggleModal("EL JUEGO HA QUEDADO EN EMPATE");
+    }
 }
 
 function newGame() {
     location.reload();
 }
+
+function toggleModal(msg) {
+    document.getElementById("msg").innerHTML = msg;
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        toggleModal("");
+    }
+}
+
+window.addEventListener("click", windowOnClick);
